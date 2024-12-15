@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.rapid.talk",
+      "sha256_cert_fingerprints": [
+        "E8:F4:BC:85:54:84:20:E4:FE:37:EB:65:8A:30:FE:3C:44:68:08:5B:2F:7D:C5:84:57:DE:9A:9E:45:7F:AF:E0"
+      ]
+    }
+  }
+]
