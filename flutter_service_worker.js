@@ -204,3 +204,59 @@ function onlineFirst(event) {
     })
   );
 }
+
+self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") {
+    return;
+  }
+  const origin = self.location.origin;
+  let key = event.request.url.substring(origin.length + 1);
+
+  // Special case for root
+  if (key === "" || event.request.url === origin || event.request.url.startsWith(origin + "/#")) {
+    key = "/";
+  }
+
+  // Match `.well-known/assetlinks.json` explicitly
+  if (key.startsWith(".well-known/assetlinks.json")) {
+    event.respondWith(
+      caches.open(CACHE_NAME).then((cache) => {
+        return cache.match(event.request).then((response) => {
+          return (
+            response ||
+            fetch(event.request).then((response) => {
+              if (response && response.ok) {
+                cache.put(event.request, response.clone());
+              }
+              return response;
+            })
+          );
+        });
+      })
+    );
+    return;
+  }
+
+  // If not found in RESOURCES, allow default fetch
+  if (!RESOURCES[key]) {
+    return;
+  }
+
+  // Handle caching of other resources
+  event.respondWith(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.match(event.request).then((response) => {
+        return (
+          response ||
+          fetch(event.request).then((response) => {
+            if (response && response.ok) {
+              cache.put(event.request, response.clone());
+            }
+            return response;
+          })
+        );
+      });
+    })
+  );
+});
+
