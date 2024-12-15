@@ -114,6 +114,14 @@ self.addEventListener("activate", function(event) {
 });
 // The fetch handler redirects requests for RESOURCE files to the service
 // worker cache.
+
+self.addEventListener('fetch', (event) => {
+  if (event.request.url.includes('/.well-known/')) {
+    return; // Skip service worker for .well-known files
+  }
+  // Continue with your usual fetch logic
+});
+
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== 'GET') {
     return;
