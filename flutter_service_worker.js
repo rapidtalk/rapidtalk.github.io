@@ -39,7 +39,8 @@ const RESOURCES = {".well-known/assetlinks.json": "c025a9695f44bead68121236077ac
 const CORE = ["main.dart.js",
 "index.html",
 "assets/AssetManifest.bin.json",
-"assets/FontManifest.json"];
+"assets/FontManifest.json",
+".well-known/assetlinks.json"];
 
 // During install, the TEMP cache is populated with the application shell files.
 self.addEventListener("install", (event) => {
